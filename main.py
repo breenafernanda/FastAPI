@@ -60,14 +60,15 @@ async def receber_json(dados_json: dict):
             cpf = data.get('cpf', 'CPF não especificado')
             valor_proposta = data.get('valor_proposta', 'Valor não especificado')
             print(f'Buffer: {Handler.buffer}')
-            print(
+	    driver = abrir_navegador()	
+            
+	    print(
                 f'\x1b[31m>>> NOVA CHAMADA DE API RECEBIDA <<<<\x1b[32m\n\n    vagas disponíveis no buffer: {instances_running} \n\n'
                 f'Proposta recebida: \x1b[31m{numero_proposta}\x1b[32m\n'
                 f'CPF: \x1b[31m{cpf}\x1b[32m\n'
                 f'Valor da Proposta: \x1b[31m R$ {valor_proposta}\x1b[32m\n'
             )
 	    
-	    driver = abrir_navegador()	
             return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
 
