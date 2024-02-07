@@ -1,13 +1,4 @@
 
-build:
-  builder: NIXPACKS
-  commands:
-    - name: Install Chrome
-      use: "@nixpacks/google-chrome-unstable"
-
-deploy:
-  startCommand: "hypercorn main:app --bind \"[::]:$PORT\""
-
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
