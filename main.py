@@ -7,7 +7,7 @@ class Handler():
 
 
 def abrir_navegador():
-        try:
+	try:
                 options = webdriver.ChromeOptions()
                 options.add_argument('--disable-gpu')
                 # options.add_argument('--headless') # navegador oculto
