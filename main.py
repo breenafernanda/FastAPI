@@ -11,13 +11,13 @@ class Handler():
 
 def check_chromedriver_availability():
     try:
-        # Tenta iniciar o ChromeDriver
-        webdriver.Chrome()
+        # Especifique o caminho para o ChromeDriver
+        chrome_driver_path = './drivers/chromedriver'  # Atualize o caminho conforme necessário
+        webdriver.Chrome(executable_path=chrome_driver_path)
         print("ChromeDriver está disponível no ambiente.")
     except WebDriverException as e:
         print(f"Erro ao iniciar o ChromeDriver: {e}")
         print("Certifique-se de que o ChromeDriver está instalado e configurado corretamente.")
-
 
 def abrir_navegador():
     try:
