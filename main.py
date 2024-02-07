@@ -66,10 +66,10 @@ async def receber_json(dados_json: dict):
                 f'CPF: \x1b[31m{cpf}\x1b[32m\n'
                 f'Valor da Proposta: \x1b[31m R$ {valor_proposta}\x1b[32m\n'
             )
-			try:
-				driver = abrir_navegador()
-			except Exception as e: print(f'Erro ao abrir navegador: {e}')
-                    
+	    try:
+			driver = abrir_navegador()
+	    except Exception as e: print(f'Erro ao abrir navegador: {e}')
+	    
 
         
             return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
