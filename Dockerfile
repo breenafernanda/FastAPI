@@ -16,15 +16,4 @@ RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-ke
     && apt-get install -y google-chrome-stable \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the application code
-COPY . .
-
-# Expose the port on which the application will run
-EXPOSE 8000
-
-# Run the application using Hypercorn
-CMD ["hypercorn", "main:app", "--bind", "0.0.0.0:8000"]
