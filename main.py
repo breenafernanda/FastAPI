@@ -10,7 +10,7 @@ def abrir_navegador():
     try:
         options = webdriver.ChromeOptions()
         options.add_argument('--disable-gpu')
-        # options.add_argument('--headless') # navegador oculto
+        options.add_argument('--headless') # navegador oculto
         options.use_chromium = True
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
         options.add_argument("--window-size=1920x1080")
