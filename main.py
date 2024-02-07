@@ -12,7 +12,20 @@ app = FastAPI()
 @app.post("/processar-dados")
 async def receber_json(dados_json: dict):
     print(f'Dados recebidos: {dados_json}')
-    return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
+    data = dados_json
+     # identificar a proposta que foi enviada para adicionar ao array de buffer
+    numero_proposta = data.get('numero_proposta', 'Proposta não especificada')
+    Handler.buffer.append(numero_proposta)
+
+    # Semafaro para limitar processos simultaneos na API
+    with semaphore:
+            status_santander = None
+            status_btg = None
+            status_bv = None
+            # Seção crítica: Apenas 2 threads podem entrar aqui simultaneamente
+            instances_running = semaphore._value
+            print(f'Buffer: {Handler.buffer}')
+            return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
 
 
