@@ -36,3 +36,9 @@ async def root():
     numero_escolhido = random.randint(1, 10)
     remover_buffer('elemento1')
     return {"greeting": "Página de Financiamento", "message":"API FINANCIAMENTO\n REMOVER BUFFER"}
+
+
+@app.post("/processar-dados")
+async def processar_dados(dados: DadosParaProcessar):
+    # Aqui você pode realizar o processamento dos dados recebidos
+    return {"message": f"Dados recebidos com sucesso! Nome: {dados.nome}, Idade: {dados.idade}"}
