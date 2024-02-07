@@ -11,4 +11,4 @@ WORKDIR /app
 COPY . /app
 
 # Comando de execução do Hypercorn
-CMD ["hypercorn", "main:app", "--bind", "fastapi-production-00ec.up.railway.app:5000"]
+CMD ["hypercorn", "main:app", "--bind", "fastapi-production-00ec.up.railway.app:8000"]
