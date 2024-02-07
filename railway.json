@@ -3,7 +3,8 @@
   "build": {
     "builder": "NIXPACKS",
     "commands": [
-      { "name": "Install Chrome", "use": "@nixpacks/chromium" }
+      { "name": "Install Chrome", "use": "@nixpacks/chromium" },
+      { "name": "Install ChromeDriver", "use": "@nixpacks/chromedriver" }
     ]
   },
   "deploy": {
