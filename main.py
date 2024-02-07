@@ -1,4 +1,9 @@
 from fastapi import FastAPI, HTTPException
+from threading import Semaphore
+
+# lib para limitar buffer em 2 processos por vez (lib cria fila de execução)
+semaphore = Semaphore(2) 
+
 import uvicorn
 
 app = FastAPI()
