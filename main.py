@@ -6,9 +6,8 @@ class Handler():
     buffer = []
 
 
-def abrir_navegador(number):
-            try:
-
+def abrir_navegador():
+        try:
                 options = webdriver.ChromeOptions()
                 options.add_argument('--disable-gpu')
                 # options.add_argument('--headless') # navegador oculto
@@ -33,7 +32,7 @@ def abrir_navegador(number):
                 driver.execute_script("window.open('', '_blank');")
 
                 return driver
-            except Exception as erro: print(f'VERIFICAR NAVEGADOR ABERTO \n {erro}')
+        except Exception as erro: print(f'VERIFICAR NAVEGADOR ABERTO \n {erro}')
 
 
 # lib para limitar buffer em 2 processos por vez (lib cria fila de execução)
@@ -67,6 +66,9 @@ async def receber_json(dados_json: dict):
                 f'CPF: \x1b[31m{cpf}\x1b[32m\n'
                 f'Valor da Proposta: \x1b[31m R$ {valor_proposta}\x1b[32m\n'
             )
+			try:
+				driver = abrir_navegador()
+			except Exception as e: print(f'Erro ao abrir navegador: {e}')
                     
 
         
