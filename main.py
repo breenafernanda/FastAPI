@@ -86,7 +86,7 @@ async def receber_json(dados_json: dict):
         )
         # Chama a função para verificar a disponibilidade do ChromeDriver
         check_chromedriver_availability()
-        driver = abrir_navegador()    
+        # driver = abrir_navegador()    
 
         return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
