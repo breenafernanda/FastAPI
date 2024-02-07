@@ -2,9 +2,22 @@ from fastapi import FastAPI
 from threading import Semaphore
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.common.exceptions import WebDriverException
 
 class Handler():
     buffer = []
+
+
+
+def check_chromedriver_availability():
+    try:
+        # Tenta iniciar o ChromeDriver
+        webdriver.Chrome()
+        print("ChromeDriver está disponível no ambiente.")
+    except WebDriverException as e:
+        print(f"Erro ao iniciar o ChromeDriver: {e}")
+        print("Certifique-se de que o ChromeDriver está instalado e configurado corretamente.")
+
 
 def abrir_navegador():
     try:
@@ -58,7 +71,6 @@ async def receber_json(dados_json: dict):
         cpf = data.get('cpf', 'CPF não especificado')
         valor_proposta = data.get('valor_proposta', 'Valor não especificado')
         print(f'Buffer: {Handler.buffer}')
-        driver = abrir_navegador()    
 
         print(
             f'\x1b[31m>>> NOVA CHAMADA DE API RECEBIDA <<<<\x1b[32m\n\n    vagas disponíveis no buffer: {instances_running} \n\n'
@@ -66,6 +78,9 @@ async def receber_json(dados_json: dict):
             f'CPF: \x1b[31m{cpf}\x1b[32m\n'
             f'Valor da Proposta: \x1b[31m R$ {valor_proposta}\x1b[32m\n'
         )
+        # Chama a função para verificar a disponibilidade do ChromeDriver
+        check_chromedriver_availability()
+        driver = abrir_navegador()    
 
         return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
