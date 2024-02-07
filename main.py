@@ -22,11 +22,10 @@ async def root():
     status_buffer = Handler.buffer
     return {"greeting": "Hello, World!", "message": f"Welcome to FastAPI!\n\nBuffer = {status_buffer}"}
 
-@app.post("/processar_dados")
-async def processar_dados(dados: DadosParaProcessar):
-    adicionar_buffer({'nome': dados.nome, 'idade': dados.idade})
-    return {"message": "Dados recebidos com sucesso!", "dados": dados.dict()}
-
+@app.post("/processar-dados")
+async def processar_dados(dados: dict):
+    # Lógica de processamento dos dados aqui
+    return {"message": "Dados processados com sucesso", "dados": dados}
 @app.get("/ver_buffer")
 async def ver_buffer():
     status_buffer = Handler.buffer
