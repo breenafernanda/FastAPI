@@ -12,8 +12,14 @@ class Handler():
 def check_chromedriver_availability():
     try:
         # Especifique o caminho para o ChromeDriver
-        chrome_driver_path = './drivers/chromedriver'  # Atualize o caminho conforme necessário
-        webdriver.Chrome(executable_path=chrome_driver_path)
+        # chrome_driver_path = './drivers/chromedriver'  # Atualize o caminho conforme necessário
+        options = webdriver.ChromeOptions()
+        options.add_argument('--disable-gpu')
+        options.add_argument('--headless') # navegador oculto
+        options.use_chromium = True
+        driver_manager = ChromeDriverManager()
+        driver = webdriver.Chrome(executable_path=driver_manager.install(), options=options)
+        # webdriver.Chrome(executable_path=chrome_driver_path)
         print("ChromeDriver está disponível no ambiente.")
     except WebDriverException as e:
         print(f"Erro ao iniciar o ChromeDriver: {e}")
