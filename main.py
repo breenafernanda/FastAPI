@@ -14,7 +14,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    status_buffer = API.buffer
+    status_buffer = Handler.buffer
     return {"greeting": "Hello, World!", "message": f"Welcome to FastAPI!\n\nBuffer = {status_buffer}"}
 
 
