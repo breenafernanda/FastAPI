@@ -17,16 +17,17 @@ class DadosParaProcessar(BaseModel):
 
 app = FastAPI()
 
-@app.get("/")
-async def root():
-    status_buffer = Handler.buffer
-    return {"greeting": "Hello, World!", "message": f"Welcome to FastAPI!\n\nBuffer = {status_buffer}"}
+# @app.get("/")
+# async def root():
+#     status_buffer = Handler.buffer
+#     return {"greeting": "Hello, World!", "message": f"Welcome to FastAPI!\n\nBuffer = {status_buffer}"}
 
 @app.post("/processar-dados")
 async def processar_dados(dados: dict):
     # Lógica de processamento dos dados aqui
     return {"message": "Dados processados com sucesso", "dados": dados}
-@app.get("/ver_buffer")
-async def ver_buffer():
-    status_buffer = Handler.buffer
-    return {"buffer": status_buffer}
+    
+# @app.get("/ver_buffer")
+# async def ver_buffer():
+#     status_buffer = Handler.buffer
+#     return {"buffer": status_buffer}
