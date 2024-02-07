@@ -32,7 +32,7 @@ def abrir_navegador():
                 driver.execute_script("window.open('', '_blank');")
 
                 return driver
-        except Exception as erro: print(f'VERIFICAR NAVEGADOR ABERTO \n {erro}')
+	except Exception as erro: print(f'VERIFICAR NAVEGADOR ABERTO \n {erro}')
 
 
 # lib para limitar buffer em 2 processos por vez (lib cria fila de execução)
@@ -67,12 +67,7 @@ async def receber_json(dados_json: dict):
                 f'Valor da Proposta: \x1b[31m R$ {valor_proposta}\x1b[32m\n'
             )
 	    
-	    try:
-		driver = abrir_navegador()	
-	    except Exception as e: print(f'Erro ao abrir navegador: {e}')
-	    
-
-        
+	    driver = abrir_navegador()	
             return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
 
