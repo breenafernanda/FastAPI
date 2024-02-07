@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from flask import Flask, request, jsonify
+# from flask import Flask, request, jsonify
 import time, requests, os, random
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
