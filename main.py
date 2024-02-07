@@ -1,10 +1,14 @@
 from fastapi import FastAPI
 
+class API():
+    buffer = 0
+    
 app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"greeting": "Hello, World!", "message": "Welcome to FastAPI!"}
+    status_buffer = API.buffer
+    return {"greeting": "Hello, World!", "message": f"Welcome to FastAPI!\n\nBuffer = {status_buffer}"}
 
 
 @app.get("/financiamento")
