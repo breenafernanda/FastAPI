@@ -1,14 +1,6 @@
-# 
-FROM python:3.9
+# Use the official Python image
+FROM python:3.8-slim
 
-# 
-WORKDIR /code
-
-# 
-COPY ./requirements.txt /code/requirements.txt
-
-# 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 # Set the working directory
 WORKDIR /app
 
@@ -30,8 +22,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application code
 COPY . .
-# # 
-# COPY ./app /code/app
 
-# 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Expose the port on which the application will run
+EXPOSE 8000
+
+# Run the application using Hypercorn
+CMD uvicorn main:app --host 0.0.0.0 --port $PORT
