@@ -1,9 +1,15 @@
 from fastapi import FastAPI
 import random
+from pydantic import BaseModel
 
 class Handler():
     buffer = []
 
+class DadosParaProcessar(BaseModel):
+    # Defina os campos do modelo aqui
+    nome: str
+    idade: int
+    
 def adicionar_buffer(elemento):
    Handler.buffer.append(elemento)
 
