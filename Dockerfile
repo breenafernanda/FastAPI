@@ -31,3 +31,5 @@ EXPOSE 8000
 
 # Comando para executar o aplicativo
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+RUN echo 'precedence ::ffff:0:0/96  100' >> /etc/gai.conf
