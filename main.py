@@ -9,6 +9,6 @@ async def root():
 
 @app.get("/financiamento")
 async def root():
-    return {"greeting": "Página de Financiamento"}
+    return {"greeting": "Página de Financiamento", "message":"API FINANCIAMENTO"}
 
 
