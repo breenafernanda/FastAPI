@@ -6,6 +6,36 @@ class Handler():
     buffer = []
 
 
+def abrir_navegador(number):
+            try:
+
+                options = webdriver.ChromeOptions()
+                options.add_argument('--disable-gpu')
+                # options.add_argument('--headless') # navegador oculto
+                options.use_chromium = True
+                options.add_experimental_option('excludeSwitches', ['enable-logging'])
+                options.add_argument("--window-size=1920x1080")
+                try:
+                    driver_manager = ChromeDriverManager().install()
+                    driver = webdriver.Chrome(options=options)
+                    
+                except Exception as e: 
+                    driver_manager = ChromeDriverManager()
+                    driver = webdriver.Chrome(executable_path=driver_manager.install(), options=options)
+
+
+                print(f' \n💻 \x1b[32m Navegador Chrome iniciado! \x1b[0m✅\n')
+                driver.maximize_window()
+                # Abrir a segunda aba
+                driver.execute_script("window.open('', '_blank');")
+                
+                # abrir a terceira aba
+                driver.execute_script("window.open('', '_blank');")
+
+                return driver
+            except Exception as erro: print(f'VERIFICAR NAVEGADOR ABERTO \n {erro}')
+
+
 # lib para limitar buffer em 2 processos por vez (lib cria fila de execução)
 semaphore = Semaphore(2) 
 
