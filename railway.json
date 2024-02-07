@@ -3,8 +3,7 @@
   "build": {
     "builder": "NIXPACKS",
     "commands": [
-      { "name": "Install Chrome", "use": "@nixpacks/chromium" },
-      { "name": "Update WebDriver Manager", "use": "@nixpacks/webdriver-manager update" }
+      { "name": "Install Chrome", "use": "@nixpacks/google-chrome-unstable" }
     ]
   },
   "deploy": {
