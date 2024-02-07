@@ -40,7 +40,7 @@ semaphore = Semaphore(2)
 app = FastAPI()
 
 # Rota para receber o JSON via método POST
-@app.post("/processar-dados")
+@app.post("/api_financiamento")
 async def receber_json(dados_json: dict):
     print(f'Dados recebidos: {dados_json}')
     data = dados_json
