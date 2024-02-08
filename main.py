@@ -23,9 +23,10 @@ def executar_no_terminal(comando):
         # Executa o comando no terminal
         resultado = subprocess.run(comando, shell=True, check=True, capture_output=True, text=True)
         print(f"Comando recebido:\x1b[36m {comando}\n\n\x1b[34mComando executado com sucesso!\x1b[0m")
+        print(f'\x1b[33msaída do terminal -> {resultado.stdout}\x1b[0m')
         return resultado.stdout
     except subprocess.CalledProcessError as e:
-        print(f"Erro ao executar o comando: {e}")
+        print(f"\x1b[35mErro ao executar o comando:\n {e}\x1b[0m")
         return None
 
 
