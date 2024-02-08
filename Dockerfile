@@ -9,12 +9,15 @@ RUN apt-get update && apt-get install -y wget gnupg2 \
     && apt-get install -y google-chrome-stable
 
 # Instala o ChromeDriver
-RUN CHROME_VERSION=$(google-chrome --version | grep -oE "[0-9]+\.[0-9]+\.[0-9]+") \
-    && CHROMEDRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION") \
-    && wget -q --continue -P /chromedriver "http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" \
-    && unzip /chromedriver/chromedriver* -d /usr/local/bin/ \
-    && rm -rf /chromedriver
-
+RUN apt-get update && apt-get install -y wget unzip && \
+    CHROME_VERSION=$(google-chrome --version | grep -oE "[0-9]+.[0-9]+.[0-9]+" | head -n 1) && \
+    CHROMEDRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION") && \
+    wget -q --continue -P /chromedriver "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
+    unzip /chromedriver/chromedriver* -d /usr/local/bin/ && \
+    rm -rf /chromedriver && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+    
 # Define o diretório de trabalho
 WORKDIR /app
 
