@@ -15,7 +15,17 @@ def check_chrome_installation():
     if shutil.which("google-chrome") or shutil.which("google-chrome-stable"):
         print("Chrome está instalado no ambiente.")
     else:
-        print("Chrome não está instalado no ambiente.")
+        print("Chrome não está instalado no ambiente. Instalando...")
+
+        # Comando para instalar o Chrome no Ubuntu (ajuste conforme necessário)
+        install_command = "sudo apt-get update && sudo apt-get install -y google-chrome-stable"
+
+        try:
+            # Executa o comando de instalação
+            subprocess.run(install_command, shell=True, check=True)
+            print("Chrome instalado com sucesso.")
+        except subprocess.CalledProcessError as e:
+            print(f"Erro ao instalar o Chrome: {e}")
 
 def check_chromedriver_availability():
     try:
