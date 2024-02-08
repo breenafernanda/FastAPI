@@ -26,6 +26,7 @@ WORKDIR /app
 COPY . .
 
 # Instala as dependências do projeto Python, incluindo Selenium
+RUN pip uninstall -y hypercorn
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Comando para executar o script de teste
