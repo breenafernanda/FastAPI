@@ -10,7 +10,8 @@
         "preBuild": {
           "commands": [
             "python -m venv /opt/venv",
-            ". /opt/venv/bin/activate"
+            ". /opt/venv/bin/activate",
+             "python -V"  //  verificar a versão do Python
           ]
         }
       }
