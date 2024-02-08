@@ -13,5 +13,5 @@
   },
   "deploy": {
     "startCommand": "hypercorn main:app --bind \"[::]:$PORT\""
-  },
+  }
 }
