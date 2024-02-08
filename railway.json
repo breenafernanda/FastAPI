@@ -12,7 +12,9 @@
           "commands": [
             "python -m venv /opt/venv",
             ". /opt/venv/bin/activate",
-            "pip install --upgrade pip"
+            "pip install --upgrade pip",
+            "pip install -r requirements.txt",
+            "webdriver-manager update"
           ]
         }
       }
@@ -22,4 +24,3 @@
     "startCommand": "hypercorn main:app --bind \"[::]:$PORT\""
   }
 }
-
