@@ -178,18 +178,16 @@ async def receber_json(dados_json: dict):
         # Comandos para instalar o wget e o Google Chrome
         comandos = [
             "sudo apt update",
-            "sudo apt install wget",
-            "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
-            "sudo dpkg -i google-chrome-stable_current_amd64.deb",
-            "sudo apt-get install -f",
-            "google-chrome -version"
+            "sudo add-apt-repository ppa:saiarcot895/chromium-dev",
+            "sudo apt-get update",
+            "sudo apt-get install chromium-browser"
         ]
         
         # Executa os comandos
         for comando in comandos:
             executar_no_terminal(comando)
         # Chama a função para verificar a instalação do Chrome
-        check_chrome_installation()
+        # check_chrome_installation()
         return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
 if __name__ == "__main__":
