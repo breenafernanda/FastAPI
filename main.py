@@ -7,7 +7,29 @@ import shutil, subprocess, uvicorn, requests
 
 class Handler():
     buffer = []
+import subprocess
 
+def executar_no_terminal(comando):
+    """
+    Executa um comando no terminal.
+
+    Parâmetros:
+    - comando (str): O comando a ser executado.
+
+    Retorna:
+    - Saída padrão do comando se a execução for bem-sucedida, None caso contrário.
+    """
+    try:
+        # Executa o comando no terminal
+        resultado = subprocess.run(comando, shell=True, check=True, capture_output=True, text=True)
+        print("Comando executado com sucesso!")
+        return resultado.stdout
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao executar o comando: {e}")
+        return None
+
+
+    
 def install_dependencies():
     dependencies = [
         "fonts-liberation",
@@ -149,11 +171,18 @@ async def receber_json(dados_json: dict):
         # check_chromedriver_availability()
 
         # Chama a função para verificar a instalação do Chrome
-        check_chrome_installation()
+        # check_chrome_installation()
 
         # Inicia o navegador
         # driver = abrir_navegador()
-
+        # Exemplo de uso
+        comando = "sudo apt update"
+        saida = executar_no_terminal(comando)
+        
+        if saida is not None:
+            print("Saída do comando:")
+            print(saida)
+        else: print('Sem retorno no terminal")
         return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
 if __name__ == "__main__":
