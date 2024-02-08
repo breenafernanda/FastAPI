@@ -171,8 +171,7 @@ async def receber_json(dados_json: dict):
         # Chama a função para verificar a disponibilidade do ChromeDriver
         # check_chromedriver_availability()
 
-        # Chama a função para verificar a instalação do Chrome
-        # check_chrome_installation()
+
 
         # Inicia o navegador
         # driver = abrir_navegador()
@@ -189,7 +188,8 @@ async def receber_json(dados_json: dict):
         # Executa os comandos
         for comando in comandos:
             executar_no_terminal(comando)
-        
+        # Chama a função para verificar a instalação do Chrome
+        check_chrome_installation()
         return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
 if __name__ == "__main__":
