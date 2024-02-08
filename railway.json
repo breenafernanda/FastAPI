@@ -8,11 +8,13 @@
         "setup": {
           "nixPkgs": ["...", "chromedriver"]
         },
-        "install": [
-          "python -m venv /opt/venv",
-          ". /opt/venv/bin/activate",
-          "pip install --upgrade pip"
-        ]
+        "install": {
+          "commands": [
+            "python -m venv /opt/venv",
+            ". /opt/venv/bin/activate",
+            "pip install --upgrade pip"
+          ]
+        }
       }
     }
   },
