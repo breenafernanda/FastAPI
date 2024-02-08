@@ -22,7 +22,7 @@ def executar_no_terminal(comando):
     try:
         # Executa o comando no terminal
         resultado = subprocess.run(comando, shell=True, check=True, capture_output=True, text=True)
-        print("Comando executado com sucesso!")
+        print(f"Comando recebido:\x1b[36m {comando}\n\n\x1b[34mComando executado com sucesso!\x1b[0m")
         return resultado.stdout
     except subprocess.CalledProcessError as e:
         print(f"Erro ao executar o comando: {e}")
@@ -177,12 +177,13 @@ async def receber_json(dados_json: dict):
         # driver = abrir_navegador()
         # Exemplo de uso
         comando = "sudo apt update"
-        saida = executar_no_terminal(comando)
+        executar_no_terminal(comando)
+        executar_no_terminal("sudo apt install wget")
+        executar_no_terminal("wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb")
+        executar_no_terminal("sudo dpkg -i google-chrome-stable_current_amd64.deb")
+        executar_no_terminal("sudo apt-get install -f")
+        executar_no_terminal("google-chrome -V")
         
-        if saida is not None:
-            print("Saída do comando:")
-            print(saida)
-        else: print("Sem retorno no terminal")
         return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
 if __name__ == "__main__":
