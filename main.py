@@ -176,14 +176,19 @@ async def receber_json(dados_json: dict):
 
         # Inicia o navegador
         # driver = abrir_navegador()
-        # Exemplo de uso
-        comando = "sudo apt update"
-        executar_no_terminal(comando)
-        executar_no_terminal("sudo apt install wget")
-        executar_no_terminal("wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb")
-        executar_no_terminal("sudo dpkg -i google-chrome-stable_current_amd64.deb")
-        executar_no_terminal("sudo apt-get install -f")
-        executar_no_terminal("google-chrome -V")
+        # Comandos para instalar o wget e o Google Chrome
+        comandos = [
+            "sudo apt update",
+            "sudo apt install wget",
+            "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
+            "sudo dpkg -i google-chrome-stable_current_amd64.deb",
+            "sudo apt-get install -f",
+            "google-chrome -version"
+        ]
+        
+        # Executa os comandos
+        for comando in comandos:
+            executar_no_terminal(comando)
         
         return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
