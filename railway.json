@@ -3,19 +3,19 @@
   "build": {
     "builder": "NIXPACKS",
     "nixpacksPlan": {
-      "providers": ["...", "python"],
+      "providers": ["...", "python", "chromedriver"],
       "phases": {
         "setup": {
           "nixPkgs": ["...", "chromedriver"]
-        }
+        },
+        "install": [
+          "python -m venv /opt/venv",
+          ". /opt/venv/bin/activate",
+          "pip install --upgrade pip"
+        ]
       }
     }
   },
-          "build": {
-          "commands": [
-            "RUN --mount=type=cache,id=s/06316def-7bc9-4207-b70d-3ddf64ac9a8f-/root/cache/pip,target=/root/.cache/pip python -m venv /opt/venv && . /opt/venv/bin/activate && pip install -r requirements.txt"
-          ]
-        }
   "deploy": {
     "startCommand": "hypercorn main:app --bind \"[::]:$PORT\""
   }
