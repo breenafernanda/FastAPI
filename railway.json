@@ -3,10 +3,10 @@
   "build": {
     "builder": "NIXPACKS",
     "nixpacksPlan": {
-      "providers": ["...", "python", "chromium"],
+      "providers": ["...", "python", "google-chrome"],
       "phases": {
         "setup": {
-          "nixPkgs": ["...", "chromium"]
+          "nixPkgs": ["...", "google-chrome", "chromedriver"]
         }
       }
     }
