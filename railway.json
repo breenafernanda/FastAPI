@@ -5,11 +5,17 @@
       "providers": ["...", "python"],
       "phases": {
         "setup": {
-          "nixPkgs": ["...", "google-chrome", "chromedriver"]
+          "nixPkgs": ["...", "python"]
+        },
+        "preBuild": {
+          "commands": [
+            "python -m venv /opt/venv",
+            ". /opt/venv/bin/activate"
+          ]
         }
       }
     }
-},
+  },
   "deploy": {
     "startCommand": "hypercorn main:app --bind \"[::]:$PORT\""
   }
