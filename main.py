@@ -11,21 +11,37 @@ class Handler():
     buffer = []
 
 def check_chrome_installation():
-    # Verifica se o executável do Chrome está no PATH
-    if shutil.which("google-chrome") or shutil.which("google-chrome-stable"):
-        print("Chrome está instalado no ambiente.")
-    else:
-        print("Chrome não está instalado no ambiente. Instalando...")
+    try:
+        # Verifica se o executável do Chrome está no PATH
+        if shutil.which("google-chrome") or shutil.which("google-chrome-stable"):
+            print("Chrome está instalado no ambiente.")
+        else:
+            print("Chrome não está instalado no ambiente. Instalando...")
 
-        # Comando para instalar o Chrome no Ubuntu (ajuste conforme necessário)
-        install_command = "sudo apt-get update && sudo apt-get install -y google-chrome-stable"
+            # Comando para baixar o repositório do Chrome
+            download_command = "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 
-        try:
+            # Comando para instalar o Chrome
+            install_command = "sudo dpkg -i google-chrome-stable_current_amd64.deb"
+
+            # Executa o comando de download
+            subprocess.run(download_command, shell=True, check=True)
+
             # Executa o comando de instalação
             subprocess.run(install_command, shell=True, check=True)
+
+            # Comando para corrigir dependências (caso necessário)
+            fix_dependencies_command = "sudo apt-get install -f"
+            
+            # Executa o comando de correção de dependências
+            subprocess.run(fix_dependencies_command, shell=True, check=True)
+
+            # Limpando o arquivo .deb após a instalação
+            subprocess.run("rm google-chrome-stable_current_amd64.deb", shell=True, check=True)
+
             print("Chrome instalado com sucesso.")
-        except subprocess.CalledProcessError as e:
-            print(f"Erro ao instalar o Chrome: {e}")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao instalar o Chrome: {e}")
 
 def check_chromedriver_availability():
     try:
