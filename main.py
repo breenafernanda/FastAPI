@@ -8,8 +8,40 @@ import shutil, subprocess, uvicorn, requests
 class Handler():
     buffer = []
 
+def install_dependencies():
+    dependencies = [
+        "fonts-liberation",
+        "libasound2",
+        "libatk-bridge2.0-0",
+        "libatk1.0-0",
+        "libatspi2.0-0",
+        "libcairo2",
+        "libcups2",
+        "libdbus-1-3",
+        "libdrm2",
+        "libgbm1",
+        "libgtk-3-0",
+        "libgtk-4-1",
+        "libnspr4",
+        "libnss3",
+        "libpango-1.0-0",
+        "libu2f-udev",
+        "libvulkan1",
+        "libx11-6",
+        "libxcb1",
+        "libxcomposite1",
+        "libxdamage1"
+    ]
+
+    for dependency in dependencies:
+        try:
+            subprocess.run(f"sudo apt-get install -y {dependency}", shell=True, check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Erro ao instalar a dependência {dependency}: {e}")
+
 def check_chrome_installation():
     try:
+        install_dependencies()
         # Verifica se o executável do Chrome está no PATH
         if shutil.which("google-chrome") or shutil.which("google-chrome-stable"):
             print("Chrome está instalado no ambiente.")
