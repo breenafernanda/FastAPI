@@ -182,7 +182,7 @@ async def receber_json(dados_json: dict):
         if saida is not None:
             print("Saída do comando:")
             print(saida)
-        else: print('Sem retorno no terminal")
+        else: print("Sem retorno no terminal")
         return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
 if __name__ == "__main__":
