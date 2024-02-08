@@ -3,14 +3,12 @@ from threading import Semaphore
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import WebDriverException
-import platform
 import shutil
 import subprocess
+import uvicorn
 
 class Handler():
     buffer = []
-
-
 
 def check_chrome_installation():
     # Verifica se o executável do Chrome está no PATH
@@ -32,14 +30,12 @@ def check_chrome_installation():
 def check_chromedriver_availability():
     try:
         # Especifique o caminho para o ChromeDriver
-        # chrome_driver_path = './drivers/chromedriver'  # Atualize o caminho conforme necessário
         options = webdriver.ChromeOptions()
         options.add_argument('--disable-gpu')
-        options.add_argument('--headless') # navegador oculto
+        options.add_argument('--headless')  # navegador oculto
         options.use_chromium = True
         driver_manager = ChromeDriverManager()
         driver = webdriver.Chrome(executable_path=driver_manager.install(), options=options)
-        # webdriver.Chrome(executable_path=chrome_driver_path)
         print("ChromeDriver está disponível no ambiente.")
     except WebDriverException as e:
         print(f"Erro ao iniciar o ChromeDriver: {e}")
@@ -49,24 +45,21 @@ def abrir_navegador():
     try:
         options = webdriver.ChromeOptions()
         options.add_argument('--disable-gpu')
-        options.add_argument('--headless') # navegador oculto
+        options.add_argument('--headless')  # navegador oculto
         options.use_chromium = True
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
         options.add_argument("--window-size=1920x1080")
-        try:
-            driver_manager = ChromeDriverManager().install()
-            driver = webdriver.Chrome(options=options)
-            
-        except Exception as e: 
-            driver_manager = ChromeDriverManager()
-            driver = webdriver.Chrome(executable_path=driver_manager.install(), options=options)
+        
+        # Utilize o ChromeDriverManager para instalar e obter o caminho do ChromeDriver
+        driver_manager = ChromeDriverManager()
+        driver = webdriver.Chrome(executable_path=driver_manager.install(), options=options)
 
         print(f' \n💻 \x1b[32m Navegador Chrome iniciado! \x1b[0m✅\n')
         driver.maximize_window()
         # Abrir a segunda aba
         driver.execute_script("window.open('', '_blank');")
         
-        # abrir a terceira aba
+        # Abrir a terceira aba
         driver.execute_script("window.open('', '_blank');")
 
         return driver
@@ -87,7 +80,7 @@ async def receber_json(dados_json: dict):
     numero_proposta = data.get('numero_proposta', 'Proposta não especificada')
     Handler.buffer.append(numero_proposta)
 
-    # Semafaro para limitar processos simultaneos na API
+    # Semáforo para limitar processos simultâneos na API
     with semaphore:
         status_santander = None
         status_btg = None
@@ -104,12 +97,15 @@ async def receber_json(dados_json: dict):
             f'CPF: \x1b[31m{cpf}\x1b[32m\n'
             f'Valor da Proposta: \x1b[31m R$ {valor_proposta}\x1b[32m\n'
         )
+
         # Chama a função para verificar a disponibilidade do ChromeDriver
-        # check_chromedriver_availability()
-        
+        check_chromedriver_availability()
+
         # Chama a função para verificar a instalação do Chrome
         check_chrome_installation()
-        # driver = abrir_navegador()    
+
+        # Inicia o navegador
+        driver = abrir_navegador()
 
         return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
