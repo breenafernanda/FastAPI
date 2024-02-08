@@ -3,14 +3,13 @@
   "build": {
     "builder": "NIXPACKS",
     "nixpacksPlan": {
-      "providers": ["...", "python", "google-chrome"],
+      "providers": ["...", "python"],
       "phases": {
         "setup": {
-          "nixPkgs": ["...", "google-chrome", "chromedriver"]
+          "nixPkgs": ["...", "chromedriver"]
         }
       }
     }
-  
   },
   "deploy": {
     "startCommand": "hypercorn main:app --bind \"[::]:$PORT\""
