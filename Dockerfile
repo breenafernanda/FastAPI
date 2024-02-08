@@ -1,5 +1,5 @@
-# Use an official Python runtime as a parent image
-FROM python:3.8-slim
+# Use an official Hypercorn base image
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8
 
 # Set the working directory to /app
 WORKDIR /app
@@ -10,11 +10,8 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
+# Expose the port that Hypercorn will run on
+EXPOSE 8000
 
-# Define environment variable
-ENV NAME World
-
-# Run app.py when the container launches
-CMD ["hypercorn", "main:app", "--bind", "[::]:80"]
+# Command to run the application using Hypercorn
+CMD ["hypercorn", "main:app", "--bind", "0.0.0.0:8000", "--workers", "4"]
