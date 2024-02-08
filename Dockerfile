@@ -1,5 +1,5 @@
-# Use an official Hypercorn base image
-FROM tiangolo/hypercorn:python3.8
+# Use an official Python base image
+FROM python:3.8-slim
 
 # Set the working directory to /app
 WORKDIR /app
