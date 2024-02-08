@@ -14,10 +14,4 @@
   "deploy": {
     "startCommand": "hypercorn main:app --bind \"[::]:$PORT\""
   },
-  "providers": [
-    {
-      "name": "chromedriver",
-      "version": "94.0.4606.61"
-    }
-  ]
 }
