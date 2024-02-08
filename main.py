@@ -3,9 +3,7 @@ from threading import Semaphore
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import WebDriverException
-import shutil
-import subprocess
-import uvicorn
+import shutil, subprocess, uvicorn, requests
 
 class Handler():
     buffer = []
