@@ -18,21 +18,23 @@ def check_chrome_installation():
         else:
             print("Chrome não está instalado no ambiente. Instalando...")
 
-            # Comando para baixar o repositório do Chrome
-            download_command = "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+            # URL para download do Google Chrome
+            download_url = "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 
             # Comando para instalar o Chrome
             install_command = "sudo dpkg -i google-chrome-stable_current_amd64.deb"
 
-            # Executa o comando de download
-            subprocess.run(download_command, shell=True, check=True)
+            # Baixa o arquivo do Chrome
+            response = requests.get(download_url)
+            with open("google-chrome-stable_current_amd64.deb", "wb") as f:
+                f.write(response.content)
 
             # Executa o comando de instalação
             subprocess.run(install_command, shell=True, check=True)
 
             # Comando para corrigir dependências (caso necessário)
             fix_dependencies_command = "sudo apt-get install -f"
-            
+
             # Executa o comando de correção de dependências
             subprocess.run(fix_dependencies_command, shell=True, check=True)
 
@@ -42,7 +44,6 @@ def check_chrome_installation():
             print("Chrome instalado com sucesso.")
     except subprocess.CalledProcessError as e:
         print(f"Erro ao instalar o Chrome: {e}")
-
 def check_chromedriver_availability():
     try:
         # Especifique o caminho para o ChromeDriver
