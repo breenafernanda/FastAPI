@@ -1,15 +1,15 @@
 {
   "build": {
-    "env": {
-      "NIX_PATH": "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
-    },
-    "steps": [
-      {
-        "name": "Install Chrome",
-        "script": "apt-get install google-chrome-stable"
+    "builder": "NIXPACKS",
+    "nixpacksPlan": {
+      "providers": ["...", "python"],
+      "phases": {
+        "setup": {
+          "nixPkgs": ["...", "google-chrome", "chromedriver"]
+        }
       }
-    ]
-  },
+    }
+},
   "deploy": {
     "startCommand": "hypercorn main:app --bind \"[::]:$PORT\""
   }
