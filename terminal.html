@@ -34,7 +34,8 @@
                     const resultado = await response.text();
                     outputElement.textContent += resultado + "\n";
                 } else {
-                    outputElement.textContent += "Erro ao executar o comando.\n";
+                    const erro = await response.text(); // Captura a mensagem de erro
+                    outputElement.textContent += `Erro ao executar o comando: ${erro}\n`;
                 }
             } catch (error) {
                 console.error("Erro na requisição:", error);
