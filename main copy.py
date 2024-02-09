@@ -3,12 +3,32 @@ from threading import Semaphore
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import WebDriverException
-import subprocess
 import shutil, subprocess, uvicorn, requests
-from fastapi.responses import HTMLResponse
 
 class Handler():
     buffer = []
+import subprocess
+
+def executar_no_terminal(comando):
+    """
+    Executa um comando no terminal.
+
+    Parâmetros:
+    - comando (str): O comando a ser executado.
+
+    Retorna:
+    - Saída padrão do comando se a execução for bem-sucedida, None caso contrário.
+    """
+    try:
+        # Executa o comando no terminal
+        resultado = subprocess.run(comando, shell=True, check=True, capture_output=True, text=True)
+        print(f"Comando recebido:\x1b[36m {comando}\n\n\x1b[34mComando executado com sucesso!\x1b[0m")
+        print(f'\x1b[33msaída do terminal -> {resultado.stdout}\x1b[0m')
+        return resultado.stdout
+    except subprocess.CalledProcessError as e:
+        print(f"\x1b[35mErro ao executar o comando:\n {e}\x1b[0m")
+        return None
+
 
     
 def install_dependencies():
@@ -77,7 +97,6 @@ def check_chrome_installation():
             print("Chrome instalado com sucesso.")
     except subprocess.CalledProcessError as e:
         print(f"Erro ao instalar o Chrome: {e}")
-
 def check_chromedriver_availability():
     try:
         # Especifique o caminho para o ChromeDriver
@@ -122,34 +141,54 @@ semaphore = Semaphore(2)
 
 app = FastAPI()
 
-def executar_no_terminal(comando):
-    """
-    Executa um comando no terminal.
+# Rota para receber o JSON via método POST
+@app.post("/api_financiamento")
+async def receber_json(dados_json: dict):
+    print(f'Dados recebidos: {dados_json}')
+    data = dados_json
+    # identificar a proposta que foi enviada para adicionar ao array de buffer
+    numero_proposta = data.get('numero_proposta', 'Proposta não especificada')
+    Handler.buffer.append(numero_proposta)
 
-    Parâmetros:
-    - comando (str): O comando a ser executado.
+    # Semáforo para limitar processos simultâneos na API
+    with semaphore:
+        status_santander = None
+        status_btg = None
+        status_bv = None
+        # Seção crítica: Apenas 2 threads podem entrar aqui simultaneamente
+        instances_running = semaphore._value
+        cpf = data.get('cpf', 'CPF não especificado')
+        valor_proposta = data.get('valor_proposta', 'Valor não especificado')
+        print(f'Buffer: {Handler.buffer}')
 
-    Retorna:
-    - Saída padrão do comando se a execução for bem-sucedida, None caso contrário.
-    """
-    try:
-        # Executa o comando no terminal
-        resultado = subprocess.run(comando, shell=True, check=True, capture_output=True, text=True)
-        print(f"Comando recebido:\x1b[36m {comando}\n\n\x1b[34mComando executado com sucesso!\x1b[0m")
-        print(f'\x1b[33msaída do terminal -> {resultado.stdout}\x1b[0m')
-        return resultado.stdout
-    except subprocess.CalledProcessError as e:
-        print(f"\x1b[35mErro ao executar o comando:\n {e}\x1b[0m")
-        return None
+        print(
+            f'\x1b[31m>>> NOVA CHAMADA DE API RECEBIDA <<<<\x1b[32m\n\n    vagas disponíveis no buffer: {instances_running} \n\n'
+            f'Proposta recebida: \x1b[31m{numero_proposta}\x1b[32m\n'
+            f'CPF: \x1b[31m{cpf}\x1b[32m\n'
+            f'Valor da Proposta: \x1b[31m R$ {valor_proposta}\x1b[32m\n'
+        )
+
+        # Chama a função para verificar a disponibilidade do ChromeDriver
+        # check_chromedriver_availability()
 
 
-# Rota para exibir a página terminal.html
-@app.get("/terminal")
-async def exibir_terminal():
-    # Leia o conteúdo do arquivo terminal.html
-    with open("terminal.html", "r") as arquivo_html:
-        conteudo_html = arquivo_html.read()
-    return HTMLResponse(content=conteudo_html)
+
+        # Inicia o navegador
+        # driver = abrir_navegador()
+        # Comandos para instalar o wget e o Google Chrome
+        comandos = [
+            "sudo apt update",
+            "sudo add-apt-repository ppa:saiarcot895/chromium-dev",
+            "sudo apt-get update",
+            "sudo apt-get install chromium-browser"
+        ]
+        
+        # Executa os comandos
+        for comando in comandos:
+            executar_no_terminal(comando)
+        # Chama a função para verificar a instalação do Chrome
+        # check_chrome_installation()
+        return {"mensagem": "JSON recebido com sucesso", "dados": dados_json}
 
 if __name__ == "__main__":
     # Executa o aplicativo usando o servidor Uvicorn
