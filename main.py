@@ -151,6 +151,15 @@ async def exibir_terminal():
         conteudo_html = arquivo_html.read()
     return HTMLResponse(content=conteudo_html)
 
+# Rota para receber o comando via método POST
+@app.post("/executar-comando")
+async def executar_comando(comando: str):
+    print(f"Comando recebido: {comando}")
+    # Aqui você pode chamar a função executar_no_terminal(comando) para processar o comando
+    # e retornar a saída adequada (como um JSON ou texto).
+    # Por enquanto, vou apenas retornar uma mensagem de sucesso.
+    return "Comando recebido com sucesso!"
+
 if __name__ == "__main__":
     # Executa o aplicativo usando o servidor Uvicorn
     try:
