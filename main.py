@@ -31,25 +31,16 @@ async def conectar_browserless(hostname_browserless, options):
 
 async def abrir_navegador(browser='chrome', headless=True):
     try:
-        print(f'Abrindo navegador {browser}') 
-        # Substitua a URL abaixo pela URL do seu serviço Browserless
-        browserless_url = "wss://browserless-production-6d17.up.railway.app/devtools/browser/96773cac-8991-4500-935b-ff5458a59376"
-
-        # Configuração do WebDriver remoto
-        capabilities = {
-            "browserName": "chrome",
-            "goog:chromeOptions": {"w3c": False},  # Desativar o modo W3C para compatibilidade
-        }
+        print(f'Abrindo navegador {browser}')
 
         options = webdriver.ChromeOptions()
-        options.add_experimental_option("w3c", False)  # Desativar o modo W3C para compatibilidade
+        if headless:
+            options.add_argument('--headless')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--no-sandbox')
 
-        # Usar Remote mesmo localmente
-        driver = webdriver.Remote(
-            command_executor=browserless_url,
-            desired_capabilities=capabilities,
-            options=options
-        )
+        # Use o ChromeDriver localmente
+        driver = webdriver.Chrome(executable_path='./chromedriver', options=options)
 
         # Exemplo de uso
         driver.get("https://www.exemplo.com")
@@ -57,7 +48,7 @@ async def abrir_navegador(browser='chrome', headless=True):
 
         # Feche o navegador
         driver.quit()
-    except Exception as e: 
+    except Exception as e:
         print(f'ERRO AO ABRIR NAVEGADOR -> {e}')
 
 app = FastAPI()
