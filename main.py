@@ -32,21 +32,25 @@ async def conectar_browserless(hostname_browserless, options):
 async def abrir_navegador(browser='chrome', headless=True):
     try:
         print(f'Abrindo navegador {browser}')
-
+        
+        # Obtenha o diretório atual do script Python
+        diretorio_atual = os.path.dirname(os.path.abspath(__file__))
+        
+        # Construa o caminho para o chromedriver no mesmo diretório
+        caminho_chromedriver = os.path.join(diretorio_atual, 'chromedriver')
+        
+        # Configuração do webdriver
         options = webdriver.ChromeOptions()
-        if headless:
-            options.add_argument('--headless')
-        options.add_argument('--disable-gpu')
-        options.add_argument('--no-sandbox')
-
-        # Use o ChromeDriver localmente
-        driver = webdriver.Chrome(executable_path='./chromedriver', options=options)
-
-        # Exemplo de uso
+        options.add_argument('--headless')  # Adicione opções conforme necessário
+        
+        # Inicialize o webdriver usando o caminho absoluto para o chromedriver
+        driver = webdriver.Chrome(executable_path=caminho_chromedriver, options=options)
+        
+        # Agora você pode usar o webdriver normalmente
         driver.get("https://www.exemplo.com")
         print(driver.title)
-
-        # Feche o navegador
+        
+        # Feche o navegador no final
         driver.quit()
     except Exception as e:
         print(f'ERRO AO ABRIR NAVEGADOR -> {e}')
@@ -67,7 +71,7 @@ async def executar_no_terminal(comando):
 
 async def run_command(command: str):
     if command == 'config':
-        await executar_no_terminal('pip install pyppeteer')
+        # await executar_no_terminal('pip install pyppeteer')
         driver = await abrir_navegador(browser='chrome', headless=True)
         driver.get('https://www.example.com')
         print(f'Acessou link')
