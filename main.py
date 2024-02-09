@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-import subprocess
+import subprocess, os
 import asyncio
 import websockets
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
