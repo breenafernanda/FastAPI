@@ -4,6 +4,20 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "hypercorn main:app --bind \"[::]:$PORT\""
-  }
+    "numReplicas": 1,
+    "startCommand": "hypercorn main:app --bind \"[::]:$PORT\"",
+    "sleepApplication": false,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  },
+  "env": {
+    "CHROME_BIN": "/usr/bin/google-chrome",
+    "CHROMEDRIVER_PATH": "/usr/bin/chromedriver"
+  },
+  "packages": [
+    {
+      "name": "google-chrome-stable",
+      "version": "latest"
+    }
+  ]
 }
