@@ -1,15 +1,56 @@
-<!doctype html>
-  <html>
-    <head>
-      <link rel="stylesheet" href="node_modules/xterm/dist/xterm.css" />
-      <script src="node_modules/xterm/dist/xterm.js"></script>
-    </head>
-    <body>
-      <div id="terminal"></div>
-      <script>
-        var term = new Terminal();
-        term.open(document.getElementById('terminal'));
-        term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
-      </script>
-    </body>
-  </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Simulado</title>
+</head>
+<body>
+    <div id="terminal">
+        <!-- Área de saída para exibir os resultados dos comandos -->
+        <pre id="output"></pre>
+
+        <!-- Área de entrada para digitar os comandos -->
+        <input type="text" id="commandInput" placeholder="Digite um comando e pressione Enter">
+    </div>
+
+    <!-- Script para manipular os comandos -->
+    <script>
+        const outputElement = document.getElementById("output");
+        const inputElement = document.getElementById("commandInput");
+
+        // Função para executar o comando no backend (FastAPI)
+        async function executarComando(comando) {
+            try {
+                const response = await fetch("/executar-comando", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ comando }) // Envia o comando como JSON
+                });
+
+                if (response.ok) {
+                    const resultado = await response.text();
+                    outputElement.textContent += resultado + "\n";
+                } else {
+                    outputElement.textContent += "Erro ao executar o comando.\n";
+                }
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+            }
+        }
+
+        // Evento ao pressionar Enter no campo de entrada
+        inputElement.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                const comando = inputElement.value.trim();
+                if (comando) {
+                    executarComando(comando);
+                    inputElement.value = ""; // Limpa o campo de entrada
+                }
+            }
+        });
+    </script>
+</body>
+</html>
