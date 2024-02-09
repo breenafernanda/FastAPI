@@ -3,55 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal Simulado</title>
+    <title>Terminal</title>
 </head>
 <body>
-    <div id="terminal">
-        <!-- Área de saída para exibir os resultados dos comandos -->
-        <pre id="output"></pre>
+    <h1>Terminal</h1>
+    <form id="terminalForm">
+        <label for="comando">Digite o comando:</label>
+        <input type="text" id="comando" name="comando" required>
+        <button type="button" onclick="executarComando()">Enviar</button>
+    </form>
+    <div id="resultado"></div>
 
-        <!-- Área de entrada para digitar os comandos -->
-        <input type="text" id="commandInput" placeholder="Digite um comando e pressione Enter">
-    </div>
-
-    <!-- Script para manipular os comandos -->
     <script>
-        const outputElement = document.getElementById("output");
-        const inputElement = document.getElementById("commandInput");
+        async function executarComando() {
+            const comandoInput = document.getElementById('comando');
+            const resultadoDiv = document.getElementById('resultado');
 
-        // Função para executar o comando no backend (FastAPI)
-        async function executarComando(comando) {
-            try {
-                const response = await fetch("/executar-comando", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ comando }) // Envia o comando como JSON
-                });
+            const comando = comandoInput.value;
 
-                if (response.ok) {
-                    const resultado = await response.text();
-                    outputElement.textContent += resultado + "\n";
-                } else {
-                    const erro = await response.text(); // Captura a mensagem de erro
-                    outputElement.textContent += `Erro ao executar o comando\nCOMANDO = ${comando}\n ERRO =  ${erro}\n`;
-                }
-            } catch (error) {
-                console.error("Erro na requisição:", error);
-            }
+            // Enviar o comando para a API via POST
+            const response = await fetch('/executar-comando', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ comando })
+            });
+
+            const resultado = await response.json();
+            resultadoDiv.innerHTML = `<p>Resultado: ${resultado}</p>`;
         }
-
-        // Evento ao pressionar Enter no campo de entrada
-        inputElement.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                const comando = inputElement.value.trim();
-                if (comando) {
-                    executarComando(comando);
-                    inputElement.value = ""; // Limpa o campo de entrada
-                }
-            }
-        });
     </script>
 </body>
 </html>
