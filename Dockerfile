@@ -1,6 +1,9 @@
 # Define a imagem base
 FROM python:3.8-slim
+# Exemplo de mensagem de depuração
+RUN echo "Definindo imagem base como python 3.8\n________________________________________________________"
 
+RUN echo "Atualizar a lista de pacotes e instalar as dependencias necessárias \n________________________________________________________"
 # Atualiza a lista de pacotes e instala dependências necessárias
 RUN apt-get update && apt-get install -y \
     wget \
@@ -28,6 +31,7 @@ COPY . .
 # Instala as dependências do projeto Python, incluindo Selenium
 RUN pip install  hypercorn
 RUN pip install --no-cache-dir -r requirements.txt
+
 
 # Comando para executar o script de teste
 CMD ["python", "main.py"]
